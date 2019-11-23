@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>this指向</title>
+</head>
+
+<body>
+  <script>
+    function Dog(name, color) {
+      this.name = name;
+      this.color = color;
+      console.log("this", this);
+    }
+    Dog("豆豆", "红色"); // 输出全局变量Windows
+    var dog1 = new Dog("豆豆", "红色"); // 输出Dog对象 Dog {name: "豆豆", color: "红色"}
+    // new的方式调用的函数当做为构造函数,this值指向生成的实例对象
+
+    // this 指向情况
+    var obj = {
+      name: '小陈',
+      age: '21',
+      print: function() {
+        console.log('this的指向是： ' , this) //  {name: "小陈", age: "21", print: ƒ}
+        console.log('this的指向是： ' + this) //  [object Object]
+        console.log('this的指向是： ' + typeof this) //  object
+        console.log(this.name, ':', this.age) // 小陈 : 21
+      }
+    }
+    // 通过对象的方式调用
+    obj.print()
+    //谁调用了函数， this就指向谁
+    // 直接调用的函数，this 指向的是全局 window 对象。 Dog函数
+
+    // 通过 new 的方式，this 永远被绑定在新创建的对象上，任何方式都改变不了 this 的指向。 
+    function Dog2([name, color]) {
+      this.name = name;
+      this.color = color;
+      console.log("this22", this);
+      console.log("this22", typeof this); //  object
+    }
+    var dog22 = new Dog2(["豆豆2", "红色2"]);
+
+    function Dog3(name) {
+      this.name = name;
+      console.log("this33", this);
+      console.log("this33", typeof this); //  object
+    }
+    var dog33 = new Dog3("豆豆3");
+    // 箭头函数的this指向
+    const obj2 = {
+      a: () => {
+        console.log('箭头函数的this指向：' , this)
+      }
+    }
+    obj2.a(); // 输出全局变量Windows
+    // this在箭头函数中失效了，因为这是由于箭头函数没有单独的 this值
+  </script>
+</body>
+
+</html>

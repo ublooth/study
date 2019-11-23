@@ -1,16 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/eruda/1.5.8/eruda.js"></script>
+  <script>
+    eruda.init();
+  </script>
 </head>
+
 <body>
-    333322
-    <h1>修改</h1>
-    <h1>修改</h1>
-    <h1>修改</h1>
-    <h1>修改</h1>
+  <script>
+    let a = [
+      { a: 1, b: 3 },
+      { a: 2, b: 5 },
+      { a: 3, b: 7 }
+    ]
+    let b = a.length
+    let c = { a: 2, b: 5 }
+    // console.log(a)
+    // for (let z = 0; z < b; z++) {
+    //   if (a[z].a > 1) {
+    //     let j = a[z].a - 1
+    //     for (let i = 0; i < j; i++) {
+    //       a = a.concat(a[z])
+    //     }
+    //   }
+    // }
+    // console.log('this.bbb', a)
+    // for (var i =0;i<b;i++) {
+    //   if (a[z].a === c.a) {
+
+    //   }
+    // }
+    let j = [
+      { "label": "要1", "price": "22" },
+      { "label": "要2", "price": 1 }]
+      var arr = [1,2,3,4,5]
+      var aaa = 7
+      var q = null
+      for (var i =0 ;i<arr.length;i++) {
+        if (arr[i] != aaa) {
+          q = aaa
+        } else if (arr[i] === aaa) {
+          q=null
+          break
+        }
+      }
+      if (q != null) {
+        arr=arr.concat(q)
+        console.log(arr)
+      } else {
+        console.log(arr)
+      }
+  </script>
 </body>
+
 </html>

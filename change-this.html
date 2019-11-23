@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>改变this指向</title>
+</head>
+
+<body>
+  <script>
+    // 改变this指向
+
+    // 对象
+    var obj = {
+      name: 'Tom',
+      age: '21'
+    }
+
+    // call 方法
+    function print1() {
+      console.log('call-name:' + this.name) // Tom
+      console.log('call', arguments) // 输出传入放入参数[1,2,3]
+    }
+    // 调用 call
+    print1.call(obj, 1, 2, 3) // 传递参数单个传递
+
+    // apply 方法
+    function print2() {
+      console.log('apply-name:' + this.name) // Tom
+      console.log('apply', arguments) // 输出传入放入参数[1,2,3]
+    }
+    // 调用 apply
+    print2.apply(obj, [1, 2, 3]) // 传递参数数组形式
+
+    // bind 方法
+    function print3() {
+      console.log('bind-name:' + this.name) // Tom
+      console.log('bind', arguments) // 输出传入放入参数
+    }
+    // 调用 bind
+    var fn1 = print3.bind(obj, 1, 2, 3)  // 传递参数无规定
+    var fn2 = print3.bind(obj, [1, 2, 3])
+    fn1() // [1,2,3]
+    fn2() // [[1,2,3]]
+  </script>
+</body>
+
+</html>

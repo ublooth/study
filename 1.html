@@ -1,0 +1,115 @@
+<template>
+    <div id="signin">
+      <div class="about">
+        <h3>医芯未来诊所</h3>
+        <div class="input-text">
+          <el-input class="el-input-1" v-model="input" placeholder="请输入用户名"  @keyup.enter.native="signIn"></el-input>
+          <el-input placeholder="请输入密码" v-model="pwd" show-password  @keyup.enter.native="signIn"></el-input>
+          <el-checkbox class="checkbox" v-model="checked">记住密码</el-checkbox>
+          <el-button type="primary" @click="signIn">登录</el-button>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import { sumit } from '@/apis/index';
+  import { TOKEN_NAME, DOCTOR_NAME, CLINIC_NAME, PASSWORD_NAME, SIGNIN_NAME } from "@/utils/const";
+  
+  export default {
+    data() {
+      return {
+        input: '',
+        pwd: '',
+        checked: false,
+        jsondata: null,
+      }
+    },
+    methods: {
+      signIn() {
+        if(!this.input) {
+          this.$message.error({
+            message: '请输入用户名',
+          });
+          return;
+        }
+        if(!this.pwd) {
+          this.$message.error({
+            message: '请输入密码',
+          });
+          return;
+        }
+        sumit({
+          account: this.input,
+          password: this.pwd
+        }).then(res => {
+          if (res && res.status === 401) {
+            return;
+          }
+          if (res && res.data.code === 1) {
+            if(this.checked === true) { // 记住密码
+              localStorage.setItem(SIGNIN_NAME,this.input); // 存用户名
+              localStorage.setItem(PASSWORD_NAME,this.pwd); // 存密码
+            } else {
+              localStorage.removeItem(SIGNIN_NAME); // 删除
+              localStorage.removeItem(PASSWORD_NAME);
+            }
+            localStorage.setItem(TOKEN_NAME,res.data.data.doctorinfo.token); // 存token
+            localStorage.setItem(DOCTOR_NAME,res.data.data.doctorinfo.fullname); // 存医生名称
+            localStorage.setItem(CLINIC_NAME,res.data.data.clinicinfo.name); // 存诊所名称
+            this.$message({
+              message: '登录成功',
+              type: 'success',
+              duration: 2000
+            }); 
+            // location.href = '/#/home';
+            this.$router.push('/home')
+          }
+        })
+      }
+    },
+    mounted() {
+      if(localStorage.getItem(TOKEN_NAME) && localStorage.getItem(PASSWORD_NAME)) { // 记住密码
+        this.checked = true;
+        this.input = localStorage.getItem(SIGNIN_NAME)
+        this.pwd = localStorage.getItem(PASSWORD_NAME)
+      }
+    }
+  }
+  </script>
+  
+  <style>
+  #signin {
+    position: relative;
+    height: 100%;
+  }
+  .about {
+    width: 375px;
+    height: 330px;
+    border: 1px solid rgba(61, 145, 242, 1);
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .about h3 {
+    text-align: center;
+    color: rgba(61, 145, 242, 1);
+    margin: 20px 0;
+  }
+  .input-text {
+    width: 85%;
+    margin: 0 auto;
+  }
+  .input-text .el-input-1 {
+    margin-bottom: 20px;
+  }
+  .checkbox {
+    margin-top: 20px;
+  }
+  .input-text button {
+    width: 100%;
+    margin-top: 20px;
+  }
+  </style>
